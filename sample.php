@@ -12,7 +12,10 @@ require_once __DIR__ . '/lib/api.php';
 // collect the user and password from the command line
 $options =  (object) getopt('', array('user:', 'pass:', 'url:'));
 if ('' == $options->user || '' == $options->pass || '' == $options->url ) {
-  exit("This script needs a user, password and url set via --user [user] --pass [password] --url [url]\n");
+  exit(
+    "This script needs a user, password and url " .
+    "set via --user [user] --pass [password] --url [url]\n"
+  );
 }
 
 // fogbugz will throw exceptions, so we catch them here
@@ -55,9 +58,9 @@ try {
 }
 catch (Exception $e) {
   print sprintf(
-    "FogBugz Error : [Code %d] %s\n",
-    $e->getCode(),
-    $e->getMessage()
+      "FogBugz Error : [Code %d] %s\n",
+      $e->getCode(),
+      $e->getMessage()
   );
   exit(1);
 }

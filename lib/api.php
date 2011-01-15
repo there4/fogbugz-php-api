@@ -30,6 +30,7 @@
  *   ));
  *   $fogbugz->logoff();
  *
+ * @author Craig Davis <craig.davis@learningstation.com>
  */
 class FogBugz {
   
@@ -61,7 +62,7 @@ class FogBugz {
    * path to the FogBugz api script
    * @var string 
    */
-  private $token = '';
+  private $_token = '';
 
 
   /**
@@ -86,7 +87,8 @@ class FogBugz {
     
     // make sure their is a / between the url and the path
     if ('/' != substr($this->url, -1)
-        && '/' != substr($this->path, 0, 1)) {
+        && '/' != substr($this->path, 0, 1)
+    ) {
       $this->url .= "/";
     }
     
@@ -102,7 +104,7 @@ class FogBugz {
    * @return void
    */
   public function __destruct() {
-    if (!empty($this->token)) {
+    if (!empty($this->_token)) {
       $this->logoff();
     }
   }
@@ -124,7 +126,7 @@ class FogBugz {
         = isset($arguments[0])
         ? $arguments[0]
         : array();
-    return $this->request($name, $parameters);
+    return $this->_request($name, $parameters);
   }
   
   /**
@@ -139,12 +141,12 @@ class FogBugz {
     try {
       // make the initial logon request to get a token
       // that we use in subsequent requests
-      $xml = $this->request('logon', array(
+      $xml = $this->_request('logon', array(
           'email'    => $this->user,
           'password' => $this->pass
       ));
       // store this token for use later
-      $this->token = (string)$xml->token;
+      $this->_token = (string) $xml->token;
     }
     catch (FogBugzAPIError $e) {
       $message = 
@@ -153,7 +155,7 @@ class FogBugz {
           $e->getMessage();
       throw FogBugzLogonError($message, 0, $e);
     }
-    return true;
+    return TRUE;
   }
   
   /**
@@ -162,8 +164,8 @@ class FogBugz {
    * @return void
    */
   public function logoff() {
-    $this->request('logoff');
-    $this->token = '';
+    $this->_request('logoff');
+    $this->_token = '';
   }
   
   /**
@@ -178,10 +180,10 @@ class FogBugz {
    *
    * @return SimpleXMLElement containing the result from FB
    */
-  private function request($command, $params = array()) {
+  private function _request($command, $params = array()) {
     // the logon command generates the token
     if ('logon' != $command) {
-      $params['token'] = $this->token;
+      $params['token'] = $this->_token;
     }
     // add the command to the get request
     $params['cmd'] = $command;
@@ -212,11 +214,11 @@ class FogBugz {
 /** 
  * Simple Curl wrapper to encapsulate any special settings
  *
- *
+ * @author Craig Davis <craig.davis@learningstation.com>
  */
 class FogBugzCurl {
 
-  private $ch;
+  private $_ch;
 
   /**
    * Constructor inits our curl
@@ -231,10 +233,10 @@ class FogBugzCurl {
         "LearningStation FogBugz API " .
         "https://github.com/LearningStation/fogbugz-php-api)";
   
-    $this->ch = curl_init();
+    $this->_ch = curl_init();
 
     // set the agent, forwarding, and turn off ssl checking
-    curl_setopt_array($this->ch, array(
+    curl_setopt_array($this->_ch, array(
         CURLOPT_USERAGENT      => $agent,
         CURLOPT_VERBOSE        => 0,
         CURLOPT_FOLLOWLOCATION => TRUE,
@@ -253,23 +255,23 @@ class FogBugzCurl {
    */
   public function fetch($url) {
     // set the url
-    curl_setopt($this->ch, CURLOPT_URL, $url);
+    curl_setopt($this->_ch, CURLOPT_URL, $url);
     // execute the curl call
-    $content = curl_exec($this->ch);
+    $content = curl_exec($this->_ch);
     // check for errors and throw an exception if something happened
-    if (!curl_errno($this->ch)) {
+    if (!curl_errno($this->_ch)) {
       return $content;
     }
     else {
       throw new FogBugzCurlError(
-          curl_error($this->ch),
-          curl_errno($this->ch)
+          curl_error($this->_ch),
+          curl_errno($this->_ch)
       );
     }
     // set our properties in case we want to examine them later
-    $this->error   = curl_errno($this->ch);
-    $this->message = curl_error($this->ch);
-    $this->header  = curl_getinfo($this->ch);
+    $this->error   = curl_errno($this->_ch);
+    $this->message = curl_error($this->_ch);
+    $this->header  = curl_getinfo($this->_ch);
     return $content;
   }
   
@@ -279,7 +281,7 @@ class FogBugzCurl {
    * @return void
    */
   public function __destruct() {
-    curl_close($this->ch);
+    curl_close($this->_ch);
   }
 }
 
@@ -287,24 +289,32 @@ class FogBugzCurl {
  * Fogbugz Curl Error
  *
  * Used by FogBugzCurl for connection errors
+ *
+ * @author Craig Davis <craig.davis@learningstation.com>
  */
 class FogBugzCurlError extends Exception {
 }
 
 /** 
  * Fogbugz API Error
+ *
+ * @author Craig Davis <craig.davis@learningstation.com>
  */
 class FogBugzAPIError extends Exception {
 }
 
 /** 
  * Fogbugz Logon Error
+ *
+ * @author Craig Davis <craig.davis@learningstation.com>
  */
 class FogBugzLogonError extends FogBugzAPIError {
 }
 
 /** 
  * Fogbugz Connection Error
+ *
+ * @author Craig Davis <craig.davis@learningstation.com>
  */
 class FogBugzConnectionError extends FogBugzAPIError {
 }
