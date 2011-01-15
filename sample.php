@@ -10,16 +10,13 @@ error_reporting(E_ALL | E_STRICT);
 require_once __DIR__ . '/lib/api.php';
 
 // collect the user and password from the command line
-$options =  (object) getopt('', array('user:', 'pass:', 'url:'));
-if ('' == $options->user || '' == $options->pass || '' == $options->url ) {
+$options = (object) getopt('', array('user:', 'pass:', 'url:'));
+if (empty($options->user) || empty($options->pass) || empty($options->url)) {
   exit(
     "This script needs a user, password and url " .
     "set via --user [user] --pass [password] --url [url]\n"
   );
 }
-
-// fogbugz will throw exceptions, so we catch them here
-try {
 
   // init our fogbugz api with the user and pass from the command line,
   // and the url from the var above
@@ -28,6 +25,11 @@ try {
       $options->pass,
       $options->url
   );
+
+// fogbugz will throw exceptions, so we catch them here
+try {
+
+  $fogbugz->logon();
 
   // You can call any FogBugz API method directly by using it's
   // name as a method name on the $fogbugz object.

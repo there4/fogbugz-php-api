@@ -62,8 +62,13 @@ class FogBugz {
    * path to the FogBugz api script
    * @var string 
    */
-  private $_token = '';
+  public $token = '';
 
+  /**
+   * Curl interface with FB specific settings
+   * @var string 
+   */
+  public $curl = '';
 
   /**
    * Constructor
@@ -92,8 +97,8 @@ class FogBugz {
       $this->url .= "/";
     }
     
-    // automatically logon to the api
-    $this->logon();
+    // init our curl object here
+    $this->curl = new FogBugzCurl();
   }
   
   /**
@@ -104,7 +109,7 @@ class FogBugz {
    * @return void
    */
   public function __destruct() {
-    if (!empty($this->_token)) {
+    if (!empty($this->token)) {
       $this->logoff();
     }
   }
@@ -146,7 +151,7 @@ class FogBugz {
           'password' => $this->pass
       ));
       // store this token for use later
-      $this->_token = (string) $xml->token;
+      $this->token = (string) $xml->token;
     }
     catch (FogBugzAPIError $e) {
       $message = 
@@ -165,7 +170,7 @@ class FogBugz {
    */
   public function logoff() {
     $this->_request('logoff');
-    $this->_token = '';
+    $this->token = '';
   }
   
   /**
@@ -183,18 +188,16 @@ class FogBugz {
   private function _request($command, $params = array()) {
     // the logon command generates the token
     if ('logon' != $command) {
-      $params['token'] = $this->_token;
+      $params['token'] = $this->token;
     }
     // add the command to the get request
     $params['cmd'] = $command;
     $url = $this->url . $this->path . '?' . http_build_query($params);
     
-    // init our curl object and make the request, 
-    // throwing an api exception if we detect and error
-    $curl = new FogBugzCurl();
+    // make the request and throw an api exception if we detect an error
     try {
-      $result = $curl->fetch($url);
-      $xml = new SimpleXMLElement($result);
+      $result = $this->curl->fetch($url);
+      $xml    = new SimpleXMLElement($result);
       if (isset($xml->error)) {
         $code    = (string) $xml->error['code'];
         $message = (string) $xml->error;
@@ -218,7 +221,17 @@ class FogBugz {
  */
 class FogBugzCurl {
 
+  /**
+   * Our curl connection reference
+   * @var resource
+   */
   private $_ch;
+  
+  /** 
+   * last response
+   * @var string
+   */
+  public $response;
 
   /**
    * Constructor inits our curl
@@ -257,22 +270,16 @@ class FogBugzCurl {
     // set the url
     curl_setopt($this->_ch, CURLOPT_URL, $url);
     // execute the curl call
-    $content = curl_exec($this->_ch);
+    $this->response = curl_exec($this->_ch);
+    
     // check for errors and throw an exception if something happened
-    if (!curl_errno($this->_ch)) {
-      return $content;
-    }
-    else {
+    if (curl_errno($this->_ch)) {
       throw new FogBugzCurlError(
           curl_error($this->_ch),
           curl_errno($this->_ch)
       );
     }
-    // set our properties in case we want to examine them later
-    $this->error   = curl_errno($this->_ch);
-    $this->message = curl_error($this->_ch);
-    $this->header  = curl_getinfo($this->_ch);
-    return $content;
+    return $this->response;
   }
   
   /**
