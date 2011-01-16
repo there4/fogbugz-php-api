@@ -4,11 +4,11 @@
  *
  * Built against FB API 8
  *
- * @author Craig Davis <craig.davis@learningstation.com>
- * @created 1/15/2011
- * @homepage https://github.com/LearningStation/fogbugz-php-api
- * @see http://fogbugz.stackexchange.com/fogbugz-xml-api
- * @license MIT http://www.opensource.org/licenses/mit-license.php
+ * @author   Craig Davis <craig.davis@learningstation.com>
+ * @created  1/15/2011
+ * @link     https://github.com/LearningStation/fogbugz-php-api
+ * @see      http://fogbugz.stackexchange.com/fogbugz-xml-api
+ * @license  MIT http://www.opensource.org/licenses/mit-license.php
  */
 
 

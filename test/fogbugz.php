@@ -1,5 +1,4 @@
 <?php
-require_once 'PHPUnit/Framework.php';
  
 class FogBugzAPITest extends PHPUnit_Framework_TestCase {
 
@@ -8,7 +7,7 @@ class FogBugzAPITest extends PHPUnit_Framework_TestCase {
   protected $url  = "http://example.com";
 
   protected function setUp() {
-    require_once '../lib/api.php';
+    require_once __DIR__ . '/../lib/api.php';
   }
     
   public function testCanParseToken() {
@@ -16,12 +15,15 @@ class FogBugzAPITest extends PHPUnit_Framework_TestCase {
       $fogbugz = new FogBugz($this->user, $this->pass, $this->url);
       
       // swap out or connection object
-      $fogbugz->curl = new FogBugzCurlTest();
+      $fogbugz->curl = $this->getMock('FogBugzCurl');
       
       // set the xml we would expect to see on a login
-      $fogbugz->curl->set_response(
-          file_get_contents(__DIR__ . '/data/login_expected.xml')
-      );
+      $fogbugz->curl
+          ->expects($this->any())
+          ->method('fetch')
+          ->will($this->returnValue(
+              file_get_contents(__DIR__ . '/data/login_expected.xml')
+          ));
       
       // this will fetch the data above and parse the token
       $fogbugz->logon();
@@ -38,12 +40,15 @@ class FogBugzAPITest extends PHPUnit_Framework_TestCase {
       $fogbugz = new FogBugz($this->user, $this->pass, $this->url);
       
       // swap out or connection object
-      $fogbugz->curl = new FogBugzCurlTest();
+      $fogbugz->curl = $this->getMock('FogBugzCurl');
       
       // set the xml we would expect to see on a login
-      $fogbugz->curl->set_response(
-          file_get_contents(__DIR__ . '/data/error.xml')
-      );
+      $fogbugz->curl
+          ->expects($this->any())
+          ->method('fetch')
+          ->will($this->returnValue(
+              file_get_contents(__DIR__ . '/data/error.xml')
+          ));
       
       try {
         $fogbugz->startWork(array("ixBug" => 213));
@@ -68,12 +73,5 @@ class FogBugzAPITest extends PHPUnit_Framework_TestCase {
   }
 
 }
-
-class FogBugzCurlTest {
-  public $response = "";
-  public function set_response($text) { $this->response = $text; }
-  public function fetch($url) { return $this->response; }
-}
-
 
 ?>
