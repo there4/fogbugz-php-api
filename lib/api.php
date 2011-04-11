@@ -157,7 +157,7 @@ class FogBugz {
           "Login Error. " .
           "Please check the url, username and password. Error: " .
           $e->getMessage();
-      throw FogBugzLogonError($message, 0, $e);
+      throw new FogBugzLogonError($message, 0, $e);
     }
     return TRUE;
   }
