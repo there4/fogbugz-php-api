@@ -40,7 +40,7 @@ class FogBugz {
   public $url = '';
   
   /**
-   * path to the FogBugz api script
+   * Path to the FogBugz api script
    * @var string 
    */
   public $path = 'api.asp';
@@ -58,7 +58,7 @@ class FogBugz {
   public $pass = '';
   
   /**
-   * path to the FogBugz api script
+   * Path to the FogBugz api script
    * @var string 
    */
   public $token = '';

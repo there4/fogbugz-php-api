@@ -9,7 +9,28 @@ class FogBugzAPITest extends PHPUnit_Framework_TestCase {
   protected function setUp() {
     require_once __DIR__ . '/../lib/api.php';
   }
-    
+  
+  /** 
+   * @expectedException FogBugzLogonError
+   */
+  public function testInvalidLogonThrowsException() {
+      $fogbugz = new FogBugz($this->user, $this->pass, $this->url);
+      
+      // swap out our connection object
+      $fogbugz->curl = $this->getMock('FogBugzCurl');
+      
+      // set the xml we would expect to see on a login
+      $fogbugz->curl
+          ->expects($this->any())
+          ->method('fetch')
+          ->will($this->returnValue(
+              file_get_contents(__DIR__ . '/data/error_1.xml')
+          ));
+      
+      // this will fetch the data above and parse the token
+      $fogbugz->logon();
+  }
+  
   public function testCanParseToken() {
 
       $fogbugz = new FogBugz($this->user, $this->pass, $this->url);
