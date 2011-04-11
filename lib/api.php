@@ -158,7 +158,7 @@ class FogBugz {
           "Login Error. " .
           "Please check the url, username and password. Error: " .
           $e->getMessage();
-      throw new FogBugzLogonError($message, 0, $e);
+      throw new FogBugzLogonError($message, 0);
     }
     return TRUE;
   }
@@ -205,7 +205,7 @@ class FogBugz {
       }    
     }
     catch (FogBugzCurlError $e) {
-      throw new FogBugzAPIError($e->getMessage, 0, $e);
+      throw new FogBugzAPIError($e->getMessage, 0);
     }
     
     // return the SimpleXMLElement object
