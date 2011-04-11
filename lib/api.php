@@ -4,13 +4,12 @@
  *
  * Built against FB API 8
  *
- * @author   Craig Davis <craig.davis@learningstation.com>
- * @created  1/15/2011
- * @link     https://github.com/LearningStation/fogbugz-php-api
- * @see      http://fogbugz.stackexchange.com/fogbugz-xml-api
- * @license  MIT http://www.opensource.org/licenses/mit-license.php
+ * @author  Craig Davis <craig.davis@learningstation.com>
+ * @created 1/15/2011
+ * @link    https://github.com/LearningStation/fogbugz-php-api
+ * @see     http://fogbugz.stackexchange.com/fogbugz-xml-api
+ * @license MIT http://www.opensource.org/licenses/mit-license.php
  */
-
 
 /**
  * FogBugz API Wrapper
@@ -177,8 +176,6 @@ class FogBugz {
    * Send request to FogBugz
    * 
    * Internal handler to communicate to FB
-   * 
-   * @see __call()
    *
    * @param string $command FogBugz command, ?cmd=
    * @param array  $params  fogbugz parameters (default: array())
@@ -251,7 +248,7 @@ class FogBugzCurl {
     // set the agent, forwarding, and turn off ssl checking
     curl_setopt_array($this->_ch, array(
         CURLOPT_USERAGENT      => $agent,
-        CURLOPT_VERBOSE        => 0,
+        CURLOPT_VERBOSE        => FALSE,
         CURLOPT_FOLLOWLOCATION => TRUE,
         CURLOPT_RETURNTRANSFER => TRUE,
         CURLOPT_AUTOREFERER    => TRUE,

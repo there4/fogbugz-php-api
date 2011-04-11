@@ -14,7 +14,7 @@ class FogBugzAPITest extends PHPUnit_Framework_TestCase {
 
       $fogbugz = new FogBugz($this->user, $this->pass, $this->url);
       
-      // swap out or connection object
+      // swap out our connection object
       $fogbugz->curl = $this->getMock('FogBugzCurl');
       
       // set the xml we would expect to see on a login
@@ -28,6 +28,7 @@ class FogBugzAPITest extends PHPUnit_Framework_TestCase {
       // this will fetch the data above and parse the token
       $fogbugz->logon();
       
+      // confirm we read the token correctly
       $this->assertEquals(
         'sdodkc5adoq244f1ef51d9dje1eu05',
         $fogbugz->token,
@@ -36,13 +37,8 @@ class FogBugzAPITest extends PHPUnit_Framework_TestCase {
   }
 
   public function testCanCatchError() {
-
       $fogbugz = new FogBugz($this->user, $this->pass, $this->url);
-      
-      // swap out or connection object
       $fogbugz->curl = $this->getMock('FogBugzCurl');
-      
-      // set the xml we would expect to see on a login
       $fogbugz->curl
           ->expects($this->any())
           ->method('fetch')
@@ -50,6 +46,9 @@ class FogBugzAPITest extends PHPUnit_Framework_TestCase {
               file_get_contents(__DIR__ . '/data/error.xml')
           ));
       
+      // we simulate a situation where we are not logged in
+      // this should throw an exception if it parses the
+      // xml properly
       try {
         $fogbugz->startWork(array("ixBug" => 213));
       }
@@ -65,7 +64,6 @@ class FogBugzAPITest extends PHPUnit_Framework_TestCase {
           $expected->getMessage(),
           "Error message was not processed correctly"
         );
-        
         return;
       }    
       
