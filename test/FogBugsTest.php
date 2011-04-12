@@ -10,41 +10,29 @@ class FogBugzAPITest extends PHPUnit_Framework_TestCase {
     require_once __DIR__ . '/../lib/api.php';
   }
   
-  /** 
-   * @expectedException FogBugzLogonError
-   */
-  public function testInvalidLogonThrowsException() {
-      $fogbugz = new FogBugz($this->user, $this->pass, $this->url);
-      
-      // swap out our connection object
-      $fogbugz->curl = $this->getMock('FogBugzCurl');
-      
-      // set the xml we would expect to see on a login
-      $fogbugz->curl
-          ->expects($this->any())
-          ->method('fetch')
-          ->will($this->returnValue(
-              file_get_contents(__DIR__ . '/data/error_1.xml')
-          ));
-      
-      // this will fetch the data above and parse the token
-      $fogbugz->logon();
+  protected function getMockWithData($filename) {
+  
+    $fullpath = realpath(__DIR__ . '/data/' . $filename);
+    if (!is_readable($fullpath)) {
+      throw new Exception("Invalid filename in mock data: $filename");
+    }
+    $xml = file_get_contents($fullpath);
+    
+    $curl = $this->getMock('FogBugzCurl');
+    // set the xml we would expect to see on a login
+    $curl
+        ->expects($this->any())
+        ->method('fetch')
+        ->will($this->returnValue($xml));
+
+    return $curl;
   }
   
   public function testCanParseToken() {
 
       $fogbugz = new FogBugz($this->user, $this->pass, $this->url);
       
-      // swap out our connection object
-      $fogbugz->curl = $this->getMock('FogBugzCurl');
-      
-      // set the xml we would expect to see on a login
-      $fogbugz->curl
-          ->expects($this->any())
-          ->method('fetch')
-          ->will($this->returnValue(
-              file_get_contents(__DIR__ . '/data/login_expected.xml')
-          ));
+      $fogbugz->curl = $this->getMockWithData('login_expected.xml');
       
       // this will fetch the data above and parse the token
       $fogbugz->logon();
@@ -59,13 +47,8 @@ class FogBugzAPITest extends PHPUnit_Framework_TestCase {
 
   public function testCanCatchError() {
       $fogbugz = new FogBugz($this->user, $this->pass, $this->url);
-      $fogbugz->curl = $this->getMock('FogBugzCurl');
-      $fogbugz->curl
-          ->expects($this->any())
-          ->method('fetch')
-          ->will($this->returnValue(
-              file_get_contents(__DIR__ . '/data/error.xml')
-          ));
+      
+      $fogbugz->curl = $this->getMockWithData('error.xml');
       
       // we simulate a situation where we are not logged in
       // this should throw an exception if it parses the
@@ -90,7 +73,55 @@ class FogBugzAPITest extends PHPUnit_Framework_TestCase {
       
       $this->fail("An exception was not raised");
   }
+  
+  /** 
+   * @expectedException FogBugzLogonError
+   */
+  public function testInvalidLogonThrowsException() {
+
+      $fogbugz = new FogBugz($this->user, $this->pass, $this->url);
+  
+      $fogbugz->curl = $this->getMockWithData('error_1.xml');
+      
+      // this will fetch the data above and parse the token
+      $fogbugz->logon();
+  }
+  
+  /** 
+   * @expectedException FogBugzAPIError
+   */
+  public function testInvalidRequestHandlesException() {
+  
+    $fogbugz = new FogBugz($this->user, $this->pass, $this->url);
+
+    $fogbugz->curl = $this->getMockWithData('error.xml');
+    
+    // this will fetch the data above and parse the token
+    $fogbugz->startWork(array(
+      'ixBug' => 23442
+    ));
+  }
+
+  /** 
+   * @expectedException FogBugzAPIError
+   */
+  public function testRequestHandlesCurlException() {
+  
+    $fogbugz = new FogBugz($this->user, $this->pass, $this->url);
+
+    $fogbugz->curl = $this->getMock('FogBugzCurl');
+    // set the xml we would expect to see on a login
+     $fogbugz->curl
+        ->expects($this->any())
+        ->method('fetch')
+        ->will($this->throwException(new FogBugzCurlError('Unit testing mock', 42)));
+    
+    // this will fetch the data above and parse the token
+    $fogbugz->startWork(array(
+      'ixBug' => 23442
+    ));
+  }
+  
 
 }
 
-?>

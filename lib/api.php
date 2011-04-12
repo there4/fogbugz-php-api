@@ -145,10 +145,13 @@ class FogBugz {
     try {
       // make the initial logon request to get a token
       // that we use in subsequent requests
-      $xml = $this->_request('logon', array(
-          'email'    => $this->user,
-          'password' => $this->pass
-      ));
+      $xml = $this->_request(
+          'logon',
+          array(
+              'email'    => $this->user,
+              'password' => $this->pass
+          )
+      );
       // store this token for use later
       $this->token = (string) $xml->token;
     }
@@ -202,7 +205,7 @@ class FogBugz {
       }    
     }
     catch (FogBugzCurlError $e) {
-      throw new FogBugzAPIError($e->getMessage, 0);
+      throw new FogBugzAPIError($e->getMessage(), 0);
     }
     
     // return the SimpleXMLElement object
@@ -322,3 +325,5 @@ class FogBugzLogonError extends FogBugzAPIError {
  */
 class FogBugzConnectionError extends FogBugzAPIError {
 }
+
+/* end of api.php */
