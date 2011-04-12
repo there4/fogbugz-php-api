@@ -156,10 +156,10 @@ class FogBugz {
       $this->token = (string) $xml->token;
     }
     catch (FogBugzAPIError $e) {
-      $message = 
-          "Login Error. " .
-          "Please check the url, username and password. Error: " .
-          $e->getMessage();
+      $message
+          = "Login Error. "
+          . "Please check the url, username and password. Error: "
+          . $e->getMessage();
       throw new FogBugzLogonError($message, 0);
     }
     return TRUE;
@@ -241,22 +241,25 @@ class FogBugzCurl {
   public function __construct() {
   
     // Let's be nice and let them know we are out here
-    $agent = 
-        "Mozilla/4.0 (compatible; MSIE 5.01; Windows NT 5.0; " .
-        "LearningStation FogBugz API " .
-        "https://github.com/LearningStation/fogbugz-php-api)";
+    $agent
+        = "Mozilla/4.0 (compatible; MSIE 5.01; Windows NT 5.0; "
+        . "LearningStation FogBugz API "
+        . "https://github.com/LearningStation/fogbugz-php-api)";
   
     $this->_ch = curl_init();
 
     // set the agent, forwarding, and turn off ssl checking
-    curl_setopt_array($this->_ch, array(
-        CURLOPT_USERAGENT      => $agent,
-        CURLOPT_VERBOSE        => FALSE,
-        CURLOPT_FOLLOWLOCATION => TRUE,
-        CURLOPT_RETURNTRANSFER => TRUE,
-        CURLOPT_AUTOREFERER    => TRUE,
-        CURLOPT_SSL_VERIFYPEER => FALSE
-    ));
+    curl_setopt_array(
+        $this->_ch,
+        array(
+            CURLOPT_USERAGENT      => $agent,
+            CURLOPT_VERBOSE        => FALSE,
+            CURLOPT_FOLLOWLOCATION => TRUE,
+            CURLOPT_RETURNTRANSFER => TRUE,
+            CURLOPT_AUTOREFERER    => TRUE,
+            CURLOPT_SSL_VERIFYPEER => FALSE
+        )
+    );
   }
   
   /**
@@ -274,10 +277,10 @@ class FogBugzCurl {
     
     // check for errors and throw an exception if something happened
     if (curl_errno($this->_ch)) {
-      throw new FogBugzCurlError(
-          curl_error($this->_ch),
-          curl_errno($this->_ch)
-      );
+        throw new FogBugzCurlError(
+            curl_error($this->_ch),
+            curl_errno($this->_ch)
+        );
     }
     return $this->response;
   }
