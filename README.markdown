@@ -1,6 +1,8 @@
+[![Build Status](https://secure.travis-ci.org/there4/jquery-geolocation.png?branch=master)](http://travis-ci.org/there4/jquery-geolocation)
+
 # FogBugz PHP API
 
-* @see [XML API Documentation](http://fogbugz.stackexchange.com/fogbugz-xml-api)
+See the api documentation at [XML API Documentation](http://fogbugz.stackexchange.com/fogbugz-xml-api)
 
 This is a small API used to wrap up the FogBugz API into an easy to call
 object. It allows access to all of the API commands exposed by FogBugz,
