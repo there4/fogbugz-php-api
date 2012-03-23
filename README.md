@@ -8,6 +8,13 @@ This is a small API used to wrap up the FogBugz API into an easy to call
 object. It allows access to all of the API commands exposed by FogBugz,
 and returns a SimpleXMLElement object for any commands that return data.
 
+## FogBugz CLI
+
+This project was written in support for a FogBugz command line client.
+Check out my repo at [there4/fogbugz-php-cli](https://github.com/there4/fogbugz-php-cli)
+for a working command line tool for FogBugz. You can notate cases,
+track time working, and review histories. Try it, you'll like it.
+
 ## Sample Code
 
     $fogbugz = new FogBugz(
