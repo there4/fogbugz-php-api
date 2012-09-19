@@ -7,7 +7,7 @@ namespace There4\FogBugz;
  *
  * @author Craig Davis <craig@there4development.com>
  */
-class APIError extends \Exception
+class ApiError extends \Exception
 {
 }
 

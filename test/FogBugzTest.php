@@ -58,7 +58,7 @@ class FogBugzAPITest extends PHPUnit_Framework_TestCase
       // xml properly
       try {
         $fogbugz->startWork(array("ixBug" => 213));
-      } catch (FogBugz\APIError $expected) {
+      } catch (FogBugz\ApiError $expected) {
         $this->assertEquals(
           3,
           $expected->getCode(),
@@ -91,7 +91,7 @@ class FogBugzAPITest extends PHPUnit_Framework_TestCase
   }
 
   /**
-   * @expectedException There4\FogBugz\APIError
+   * @expectedException There4\FogBugz\ApiError
    */
   public function testInvalidRequestHandlesException()
   {
@@ -106,7 +106,7 @@ class FogBugzAPITest extends PHPUnit_Framework_TestCase
   }
 
   /**
-   * @expectedException There4\FogBugz\APIError
+   * @expectedException There4\FogBugz\ApiError
    */
   public function testRequestHandlesCurlException()
   {

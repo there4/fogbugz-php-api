@@ -7,7 +7,7 @@ namespace There4\FogBugz;
  *
  * @author Craig Davis <craig@there4development.com>
  */
-class ApiConnectionError extends APIError
+class ApiConnectionError extends ApiError
 {
 }
 

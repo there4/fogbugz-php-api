@@ -160,7 +160,7 @@ class Api
       );
       // store this token for use later
       $this->token = (string) $xml->token;
-    } catch (APIError $e) {
+    } catch (ApiError $e) {
       $message
           = "Login Error. "
           . "Please check the url, username and password. Error: "
@@ -208,10 +208,10 @@ class Api
       if (isset($xml->error)) {
         $code    = (string) $xml->error['code'];
         $message = (string) $xml->error;
-        throw new APIError($message, $code);
+        throw new ApiError($message, $code);
       }
     } catch (CurlError $e) {
-      throw new APIError($e->getMessage(), 0);
+      throw new ApiError($e->getMessage(), 0);
     }
 
     // return the SimpleXMLElement object
