@@ -1,0 +1,22 @@
+{
+    "name": "there4/fogbugz-api",
+    "description": "API interface for FogBugz",
+    "homepage": "http://there4.github.com/fogbugz-php-cli/",
+    "keywords": ["fogbugz"],
+    "type": "library",
+    "minimum-stability": "stable",
+    "authors": [
+        {
+            "name": "Craig Davis",
+            "email": "craig@there4development.com"
+        }
+    ],
+    "autoload": {
+        "psr-0": {
+            "There4": "src/"
+        }
+    }
+    "require": {
+
+    }
+}

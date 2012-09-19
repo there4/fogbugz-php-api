@@ -7,7 +7,9 @@
  *
  */
 error_reporting(E_ALL | E_STRICT);
-require_once __DIR__ . '/lib/api.php';
+
+require_once __DIR__ . '/../test/_autoloader.php';
+use There4\FogBugz;
 
 // collect the user and password from the command line
 $options = (object) getopt('', array('user:', 'pass:', 'url:'));
@@ -20,7 +22,7 @@ if (empty($options->user) || empty($options->pass) || empty($options->url)) {
 
   // init our fogbugz api with the user and pass from the command line,
   // and the url from the var above
-  $fogbugz = new FogBugz(
+  $fogbugz = new FogBugz\Api(
       $options->user,
       $options->pass,
       $options->url
