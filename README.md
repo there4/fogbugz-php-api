@@ -1,4 +1,4 @@
-[![Build Status](https://secure.travis-ci.org/there4/jquery-geolocation.png?branch=master)](http://travis-ci.org/there4/jquery-geolocation)
+[![Build Status](https://secure.travis-ci.org/there4/fogbugz-php-api.png?branch=master)](http://travis-ci.org/there4/fogbugz-php-api)
 
 # FogBugz PHP API
 
