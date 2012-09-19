@@ -17,7 +17,8 @@ track time working, and review histories. Try it, you'll like it.
 
 ## Sample Code
 
-    $fogbugz = new FogBugz(
+    use There4\FogBugz;
+    $fogbugz = new FogBugz\Api(
         'username@example.com',
         'password',
         'http://example.fogbugz.com'
