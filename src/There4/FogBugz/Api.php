@@ -185,6 +185,7 @@ class Api
       $params['token'] = $this->token;
     }
     // add the command to the get request
+    $params['cmd'] = $command;
     $url = $this->url . $this->path . '?' . http_build_query($params);
 
     // make the request and throw an api exception if we detect an error
