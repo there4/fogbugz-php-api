@@ -103,20 +103,6 @@ class Api
   }
 
   /**
-   * Destructor
-   *
-   * Logout if we haven't already done so
-   *
-   * @return void
-   */
-  public function __destruct()
-  {
-    if (!empty($this->token)) {
-      $this->logoff();
-    }
-  }
-
-  /**
    * Respond to FogBugz API Calls
    *
    * @param string $name      FogBugz API command name, see docs ?cmd=

@@ -1,6 +1,6 @@
 {
     "name": "there4/fogbugz-api",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "API interface for FogBugz",
     "keywords": ["fogbugz"],
     "homepage": "https://github.com/there4/fogbugz-php-api",
