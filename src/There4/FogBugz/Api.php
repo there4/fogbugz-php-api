@@ -191,7 +191,7 @@ class Api
     // make the request and throw an api exception if we detect an error
     try {
       $result = $this->curl->fetch($url);
-      $xml    = new \SimpleXMLElement($result);
+      $xml    = new \SimpleXMLElement($result, LIBXML_NOCDATA);
       if (isset($xml->error)) {
         $code    = (string) $xml->error['code'];
         $message = (string) $xml->error;
