@@ -31,8 +31,7 @@ class Curl
     // Let's be nice and let them know we are out here
     $agent
         = "Mozilla/4.0 (compatible; MSIE 5.01; Windows NT 5.0; "
-        . "LearningStation FogBugz API "
-        . "https://github.com/LearningStation/fogbugz-php-api)";
+        . "There4 FogBugz API http://git.io/6uZNKQ)";
 
     $this->_ch = curl_init();
 
