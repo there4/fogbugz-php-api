@@ -178,7 +178,7 @@ class Api
    *
    * @return SimpleXMLElement containing the result from FB
    */
-  private function _request($command, $params = array())
+  protected function _request($command, array $params = array())
   {
     // the logon command generates the token
     if ('logon' != $command) {
@@ -186,11 +186,11 @@ class Api
     }
     // add the command to the get request
     $params['cmd'] = $command;
-    $url = $this->url . $this->path . '?' . http_build_query($params);
+    $url = $this->url . $this->path;
 
     // make the request and throw an api exception if we detect an error
     try {
-      $result = $this->curl->fetch($url);
+      $result = $this->curl->fetch($url, $params);
       $xml    = new \SimpleXMLElement($result, LIBXML_NOCDATA);
       if (isset($xml->error)) {
         $code    = (string) $xml->error['code'];

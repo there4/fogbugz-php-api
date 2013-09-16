@@ -53,13 +53,17 @@ class Curl
    * Fetch a url
    *
    * @param string $url path to fetch
+   * @param array $params post parameters
    *
    * @return void
    */
-  public function fetch($url)
+  public function fetch($url, array $params = array())
   {
-    // set the url
+    // set the url and parameters
     curl_setopt($this->_ch, CURLOPT_URL, $url);
+    curl_setopt($this->_ch, CURLOPT_POST, true);
+    curl_setopt($this->_ch, CURLOPT_POSTFIELDS, $params);
+
     // execute the curl call
     $this->response = curl_exec($this->_ch);
 
