@@ -10,22 +10,22 @@ namespace There4\FogBugz;
 class Curl
 {
     /**
-    * Our Curl connection reference
-    * @var resource
-    */
+     * Our Curl connection reference
+     * @var resource
+     */
     private $_ch;
 
     /**
-    * last response
-    * @var string
-    */
+     * last response
+     * @var string
+     */
     public $response;
 
     /**
-    * Constructor inits our curl
-    *
-    * @return void
-    */
+     * Constructor inits our curl
+     *
+     * @return void
+     */
     public function __construct()
     {
         // Let's be nice and let them know we are out here
@@ -50,13 +50,13 @@ class Curl
     }
 
     /**
-    * Fetch a url
-    *
-    * @param string $url path to fetch
-    * @param array $params post parameters
-    *
-    * @return void
-    */
+     * Fetch a url
+     *
+     * @param string $url path to fetch
+     * @param array $params post parameters
+     *
+     * @return void
+     */
     public function fetch($url, array $params = array())
     {
         // Set the url and parameters
@@ -81,10 +81,10 @@ class Curl
     }
 
     /**
-    * Destructor closes the curl instance
-    *
-    * @return void
-    */
+     * Destructor closes the curl instance
+     *
+     * @return void
+     */
     public function __destruct()
     {
         curl_close($this->_ch);

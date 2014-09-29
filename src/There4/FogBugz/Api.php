@@ -36,51 +36,51 @@ namespace There4\FogBugz;
 class Api
 {
     /**
-    * Url to the FogBugz site, http:[yoursite].fogbugz.com
-    * @var string
-    */
+     * Url to the FogBugz site, http:[yoursite].fogbugz.com
+     * @var string
+     */
     public $url = '';
 
     /**
-    * Path to the FogBugz api script
-    * @var string
-    */
+     * Path to the FogBugz api script
+     * @var string
+     */
     public $path = 'api.asp';
 
     /**
-    * Username for the site
-    * @var string
-    */
+     * Username for the site
+     * @var string
+     */
     public $user = '';
 
     /**
-    * User password for the site
-    * @var string
-    */
+     * User password for the site
+     * @var string
+     */
     public $pass = '';
 
     /**
-    * Path to the FogBugz api script
-    * @var string
-    */
+     * Path to the FogBugz api script
+     * @var string
+     */
     public $token = '';
 
     /**
-    * Curl interface with FB specific settings
-    * @var string
-    */
+     * Curl interface with FB specific settings
+     * @var string
+     */
     public $curl = '';
 
     /**
-    * Constructor
-    *
-    * @param string $user username for fogbugz connection (default: '')
-    * @param string $pass password for fogbugz connection (default: '')
-    * @param string $url  base url for fogbugz (default: '')
-    * @param string $path path to api script (default: '')
-    *
-    * @return void
-    */
+     * Constructor
+     *
+     * @param string $user username for fogbugz connection (default: '')
+     * @param string $pass password for fogbugz connection (default: '')
+     * @param string $url  base url for fogbugz (default: '')
+     * @param string $path path to api script (default: '')
+     *
+     * @return void
+     */
     public function __construct($user = '', $pass = '', $url = '', $path = '')
     {
         // if the values are not empty, we'll assign them to our matching properties
@@ -101,15 +101,15 @@ class Api
     }
 
     /**
-    * Respond to FogBugz API Calls
-    *
-    * @param string $name      FogBugz API command name, see docs ?cmd=
-    * @param array  $arguments first argument contains
-    *                          an array of params for FogBugz, ie:
-    *                          ixBug, sEmail, ixProject, ixPerson
-    *
-    * @return SimpleXMLElement containing the result from FB
-    */
+     * Respond to FogBugz API Calls
+     *
+     * @param string $name      FogBugz API command name, see docs ?cmd=
+     * @param array  $arguments first argument contains
+     *                          an array of params for FogBugz, ie:
+     *                          ixBug, sEmail, ixProject, ixPerson
+     *
+     * @return SimpleXMLElement containing the result from FB
+     */
     public function __call($name, $arguments)
     {
         // if the anon method is called without arguments, we won't send any
@@ -123,13 +123,13 @@ class Api
     }
 
     /**
-    * Logon to FogBugz API and store the authentication token
-    *
-    * You don't have to explicitely call this, unless you want a new
-    * token, the constructor runs it automatically
-    *
-    * @return void
-    */
+     * Logon to FogBugz API and store the authentication token
+     *
+     * You don't have to explicitely call this, unless you want a new
+     * token, the constructor runs it automatically
+     *
+     * @return void
+     */
     public function logon()
     {
         try {
@@ -156,10 +156,10 @@ class Api
     }
 
     /**
-    * Logoff and unset our authentication token
-    *
-    * @return void
-    */
+     * Logoff and unset our authentication token
+     *
+     * @return void
+     */
     public function logoff()
     {
         $this->_request('logoff');
@@ -167,15 +167,15 @@ class Api
     }
 
     /**
-    * Send request to FogBugz
-    *
-    * Internal handler to communicate to FB
-    *
-    * @param string $command FogBugz command, ?cmd=
-    * @param array  $params  fogbugz parameters (default: array())
-    *
-    * @return SimpleXMLElement containing the result from FB
-    */
+     * Send request to FogBugz
+     *
+     * Internal handler to communicate to FB
+     *
+     * @param string $command FogBugz command, ?cmd=
+     * @param array  $params  fogbugz parameters (default: array())
+     *
+     * @return SimpleXMLElement containing the result from FB
+     */
     protected function _request($command, array $params = array())
     {
         // the logon command generates the token
@@ -205,4 +205,4 @@ class Api
 
 }
 
-/* end of Api.php */
+/* End of Api.php */
