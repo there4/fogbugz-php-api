@@ -56,7 +56,8 @@ class Curl
      *
      * @return object $this for fluent interface
      */
-    public function setProxy(array $options = array()) {
+    public function setProxy(array $options = array())
+    {
         if (array_key_exists('address', $options)) {
             curl_setopt($this->_ch, CURLOPT_PROXY, $options['address']);
         }
@@ -65,8 +66,12 @@ class Curl
         }
 
         $proxyUserPwd = '';
-        if (array_key_exists('username', $options)) { $proxyUserPwd .= $options['username']; }
-        if (array_key_exists('password', $options)) { $proxyUserPwd .= ':' . $options['password']; }
+        if (array_key_exists('username', $options)) {
+            $proxyUserPwd .= $options['username'];
+        }
+        if (array_key_exists('password', $options)) {
+            $proxyUserPwd .= ':' . $options['password'];
+        }
         if ($proxyUserPwd) {
             curl_setopt($this->_ch, CURLOPT_PROXYUSERPWD, $proxyUserPwd);
         }
