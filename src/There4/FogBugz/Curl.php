@@ -50,6 +50,30 @@ class Curl
     }
 
     /**
+     * Set proxy parameters for the curl command
+     *
+     * @param array $options keys address, port, username, password
+     *
+     * @return object $this for fluent interface
+     */
+    public function setProxy(array $options = array()) {
+        if (array_key_exists('address', $options)) {
+            curl_setopt($this->_ch, CURLOPT_PROXY, $options['address']);
+        }
+        if (array_key_exists('port', $options)) {
+            curl_setopt($this->_ch, CURLOPT_PROXYPORT, $options['port']);
+        }
+
+        $proxyUserPwd = '';
+        if (array_key_exists('username', $options)) { $proxyUserPwd .= $options['username']; }
+        if (array_key_exists('password', $options)) { $proxyUserPwd .= ':' . $options['password']; }
+        if ($proxyUserPwd) {
+            curl_setopt($this->_ch, CURLOPT_PROXYUSERPWD, $proxyUserPwd);
+        }
+        return $this;
+    }
+
+    /**
      * Fetch a url
      *
      * @param string $url path to fetch
