@@ -17,17 +17,18 @@ track time working, and review histories. Try it, you'll like it.
 
 ## Sample Code
 
-    use There4\FogBugz;
-    $fogbugz = new FogBugz\Api(
-        'username@example.com',
-        'password',
-        'http://example.fogbugz.com'
-    );
-    $fogbugz->logon();
-    $fogbugz->startWork(array(
-      'ixBug' => 23442
-    ));
-
+```php
+use There4\FogBugz;
+$fogbugz = new FogBugz\Api(
+    'username@example.com',
+    'password',
+    'http://example.fogbugz.com'
+);
+$fogbugz->logon();
+$fogbugz->startWork(array(
+    'ixBug' => 23442
+));
+```
 
 ## Magic Methods
 
@@ -41,4 +42,8 @@ sample above.
 
 Remember that the api methods return SimpleXMLElement objects. See the sample.php
 file for an example of this.
+
+## Changelog
+
+* __1.04.__: Add `setProxy()` method to the Curl class
 
