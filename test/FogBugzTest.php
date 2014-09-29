@@ -21,7 +21,8 @@ class FogBugzAPITest extends PHPUnit_Framework_TestCase
     $xml = file_get_contents($fullpath);
 
     $curl = $this->getMock('\There4\FogBugz\Curl');
-    // set the xml we would expect to see on a login
+
+    // Set the xml we would expect to see on a login
     $curl
         ->expects($this->any())
         ->method('fetch')
@@ -36,10 +37,10 @@ class FogBugzAPITest extends PHPUnit_Framework_TestCase
 
       $fogbugz->curl = $this->getMockWithData('login_expected.xml');
 
-      // this will fetch the data above and parse the token
+      // This will fetch the data above and parse the token
       $fogbugz->logon();
 
-      // confirm we read the token correctly
+      // Confirm we read the token correctly
       $this->assertEquals(
         'sdodkc5adoq244f1ef51d9dje1eu05',
         $fogbugz->token,
@@ -53,9 +54,8 @@ class FogBugzAPITest extends PHPUnit_Framework_TestCase
 
       $fogbugz->curl = $this->getMockWithData('error.xml');
 
-      // we simulate a situation where we are not logged in
-      // this should throw an exception if it parses the
-      // xml properly
+      // We simulate a situation where we are not logged in.
+      // This should throw an exception if it parses the xml properly.
       try {
         $fogbugz->startWork(array("ixBug" => 213));
       } catch (FogBugz\ApiError $expected) {
@@ -86,7 +86,7 @@ class FogBugzAPITest extends PHPUnit_Framework_TestCase
 
       $fogbugz->curl = $this->getMockWithData('error_1.xml');
 
-      // this will fetch the data above and parse the token
+      // This will fetch the data above and parse the token
       $fogbugz->logon();
   }
 
@@ -99,7 +99,7 @@ class FogBugzAPITest extends PHPUnit_Framework_TestCase
 
     $fogbugz->curl = $this->getMockWithData('error.xml');
 
-    // this will fetch the data above and parse the token
+    // This will fetch the data above and parse the token
     $fogbugz->startWork(array(
       'ixBug' => 23442
     ));
@@ -119,7 +119,7 @@ class FogBugzAPITest extends PHPUnit_Framework_TestCase
         ->method('fetch')
         ->will($this->throwException(new FogBugz\CurlError('Unit testing mock', 42)));
 
-    // this will fetch the data above and parse the token
+    // This will fetch the data above and parse the token
     $fogbugz->startWork(array(
       'ixBug' => 23442
     ));
