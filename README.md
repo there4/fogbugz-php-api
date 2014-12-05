@@ -1,6 +1,5 @@
-[![Build Status](https://secure.travis-ci.org/there4/fogbugz-php-api.png?branch=master)](http://travis-ci.org/there4/fogbugz-php-api)
-
-# FogBugz PHP API
+# FogBugz PHP API [![Build Status](https://secure.travis-ci.org/there4/fogbugz-php-api.png?branch=master)](http://travis-ci.org/there4/fogbugz-php-api) [![Code Climate](https://codeclimate.com/github/there4/fogbugz-php-api/badges/gpa.svg)](https://codeclimate.com/github/there4/fogbugz-php-api)
+> PHP Wrapper for FogBugz 8 XML API
 
 See the api documentation at [XML API Documentation](http://fogbugz.stackexchange.com/fogbugz-xml-api)
 
@@ -45,5 +44,5 @@ file for an example of this.
 
 ## Changelog
 
-* __1.04.__: Add `setProxy()` method to the Curl class
+* __1.0.4__: Add `setProxy()` method to the Curl class
 

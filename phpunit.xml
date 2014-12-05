@@ -17,9 +17,12 @@
     strict="false"
     verbose="true"
 >
-
-<filter>
-    <blacklist></blacklist>
-</filter>
-
+    <logging>
+        <log type="coverage-clover" target="build/logs/clover.xml"/>
+    </logging>
+    <testsuites>
+      <testsuite name="FogBugz PHP API Unit testing">
+        <directory>test</directory>
+      </testsuite>
+    </testsuites>
 </phpunit>
