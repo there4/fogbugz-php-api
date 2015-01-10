@@ -11,4 +11,4 @@ class ApiLogonError extends ApiError
 {
 }
 
-/* End of file LogonError.php */
+/* End of file ApiLogonError.php */

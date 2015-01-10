@@ -31,7 +31,7 @@ namespace There4\FogBugz;
  *   ));
  *   $fogbugz->logoff();
  *
- * @author Craig Davis <craig.davis@learningstation.com>
+ * @author Craig Davis <craig@there4development.com>
  */
 class Api
 {

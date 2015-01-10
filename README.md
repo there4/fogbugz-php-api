@@ -17,6 +17,7 @@ track time working, and review histories. Try it, you'll like it.
 ## Sample Code
 
 ```php
+<?php
 use There4\FogBugz;
 $fogbugz = new FogBugz\Api(
     'username@example.com',

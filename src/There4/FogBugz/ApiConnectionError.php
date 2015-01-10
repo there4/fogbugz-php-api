@@ -11,4 +11,4 @@ class ApiConnectionError extends ApiError
 {
 }
 
-/* End of file ConnectionError.php */
+/* End of file ApiConnectionError.php */
