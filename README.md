@@ -63,4 +63,5 @@ file for an example of this.
 ## Changelog
 
 * __1.0.4__: Add `setProxy()` method to the Curl class
+* __1.0.5__: Add `setToken()` method to the Api class
 
