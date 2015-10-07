@@ -18,7 +18,7 @@ namespace There4\FogBugz;
  *
  * Interface with FobgBugz API
  *
- * Sample (w/o exception handling)
+ * Example 1: Sample (w/o exception handling)
  *
  *   $fogbugz = new FogBugz\Api(
  *       'username@example.com',
@@ -31,7 +31,20 @@ namespace There4\FogBugz;
  *   ));
  *   $fogbugz->logoff();
  *
+ *  Example 2) Using API token
+ *   $fogbugz = new FogBugz\Api(
+ *       '',
+ *       '',
+ *       'http://example.fogbugz.com'
+ *   );
+
+ *   $fogbugz->setToken('your_token');
+ *   $fogbugz->startWork(array(
+ *     'ixBug' => 23442
+ *   ));
+ *
  * @author Craig Davis <craig@there4development.com>
+ * @author Svetoslav (Slavi) Marinov <slavi@orbisius.com> (contributor)
  */
 class Api
 {
@@ -46,7 +59,7 @@ class Api
      * @var string
      */
     public $path = 'api.asp';
-
+    
     /**
      * Username for the site
      * @var string
@@ -60,16 +73,22 @@ class Api
     public $pass = '';
 
     /**
-     * Path to the FogBugz api script
-     * @var string
-     */
-    public $token = '';
-
-    /**
      * Curl interface with FB specific settings
      * @var string
      */
     public $curl = '';
+
+    /**
+     * API token generated from the bogbugz site. So we don't use email/pwd combo.
+     * @var string
+     */
+    public $token = '';
+    
+    /**
+     * Stores the xml buff from the last request
+     * @var str
+     */
+    public $last_result = '';
 
     /**
      * Constructor
@@ -119,7 +138,9 @@ class Api
             ? $arguments[0]
             : array();
 
-        return $this->_request($name, $parameters);
+        $res = $this->_request($name, $parameters);
+
+        return $res;
     }
 
     /**
@@ -143,7 +164,7 @@ class Api
                 )
             );
             // store this token for use later
-            $this->token = (string) $xml->token;
+            $this->setToken($xml->token);
         } catch (ApiError $e) {
             $message
             = "Login Error. "
@@ -163,7 +184,7 @@ class Api
     public function logoff()
     {
         $this->_request('logoff');
-        $this->token = '';
+        $this->setToken('');
     }
 
     /**
@@ -182,6 +203,7 @@ class Api
         if ('logon' != $command) {
             $params['token'] = $this->token;
         }
+        
         // add the command to the get request
         $params['cmd'] = $command;
         $url = $this->url . $this->path;
@@ -189,7 +211,10 @@ class Api
         // make the request and throw an api exception if we detect an error
         try {
             $result = $this->curl->fetch($url, $params);
+            $this->setLastBuff($result);
+            
             $xml    = new \SimpleXMLElement($result, LIBXML_NOCDATA);
+            
             if (isset($xml->error)) {
                 $code    = (string) $xml->error['code'];
                 $message = (string) $xml->error;
@@ -199,10 +224,42 @@ class Api
             throw new ApiError($e->getMessage(), 0);
         }
 
-        // return the SimpleXMLElement object
-        return $xml;
+        return $xml; // return the SimpleXMLElement object
     }
 
+    /**
+     * Getter for token.
+     * @return str $token
+     */
+	public function getToken() {
+		return $this->token;
+	}
+
+    /**
+     * Setter for token
+     * @param str $token
+     * @return str $token
+     */
+	public function setToken($token = '') {
+		$this->token = (string) $token;
+        return $this->getToken();
+	}
+
+    /**
+     * Getter for last result (string xml buffer).
+     * @return str $token
+     */
+	public function getLastBuff() {
+		return $this->last_result;
+	}
+
+    /**
+     * Setter for last result
+     * @param str $buf
+     */
+	public function setLastBuff($buf) {
+		$this->last_result = (string) $buf;
+	}
 }
 
 /* End of Api.php */

@@ -30,6 +30,23 @@ $fogbugz->startWork(array(
 ));
 ```
 
+
+## Sample Code 2 (using FogBugz' API Token)
+
+```php
+<?php
+use There4\FogBugz;
+$fogbugz = new FogBugz\Api(
+    '',
+    '',
+    'http://example.fogbugz.com'
+);
+$fogbugz->setToken('your_token');
+$fogbugz->startWork(array(
+    'ixBug' => 23442
+));
+```
+
 ## Magic Methods
 
 The API uses __call() to make a method for each api endpoint in the FogBugz API.
