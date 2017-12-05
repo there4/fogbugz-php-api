@@ -64,4 +64,5 @@ file for an example of this.
 
 * __1.0.4__: Add `setProxy()` method to the Curl class
 * __1.0.5__: Add `setToken()` method to the Api class
+* __2.0.0__: Upgrade to PHP7 only in testing and update tooling
 
