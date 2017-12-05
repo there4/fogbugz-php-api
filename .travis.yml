@@ -53,5 +53,5 @@ script:
 after_script:
   - |
     if [ $TASK_TESTS_COVERAGE == 1 ]; then
-      /cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
+      ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
     fi
