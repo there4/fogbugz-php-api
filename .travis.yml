@@ -3,9 +3,6 @@ language: php
 matrix:
   fast_finish: true
   include:
-    - php: 5.5
-    - php: 5.6
-
     # Only run coverage on 7.1
     - php: 7.1
       env:
