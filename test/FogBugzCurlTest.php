@@ -1,42 +1,43 @@
 <?php
-require_once '_autoloader.php';
+namespace Tests;
+
+use PHPUnit\Framework\TestCase;
 use There4\FogBugz;
 
-class FogBugzCurlTest extends PHPUnit_Framework_TestCase
+class FogBugzCurlTest extends TestCase
 {
-  protected $curl;
+    protected $curl;
 
-  protected function setUp()
-  {
-    $this->curl = new FogBugz\Curl();
-  }
-
-  public function testServerHasRequirements()
-  {
-    if (extension_loaded('curl')) {
-      $this->assertTrue(TRUE);
-
-      return;
+    protected function setUp()
+    {
+        $this->curl = new FogBugz\Curl();
     }
-    $this->fail('Curl extension is not available');
-  }
 
-  public function testCurlCanFetchExample()
-  {
-    $this->assertInternalType(
-        'string',
-        $this->curl->fetch('http://www.example.com')
-    );
-  }
+    public function testServerHasRequirements()
+    {
+        if (extension_loaded('curl')) {
+            $this->assertTrue(true);
+
+            return;
+        }
+        $this->fail('Curl extension is not available');
+    }
+
+    public function testCurlCanFetchExample()
+    {
+        $this->assertInternalType(
+            'string',
+            $this->curl->fetch('http://www.example.com')
+        );
+    }
 
   /**
    * @expectedException There4\FogBugz\CurlError
    */
-  public function testCurlThrowsExceptionOnHttpError()
-  {
-    $this->curl->fetch('http://404.example.com');
-  }
-
+    public function testCurlThrowsExceptionOnHttpError()
+    {
+        $this->curl->fetch('http://404.example.com');
+    }
 }
 
 /* End of file FogBugzCurlTest.php */

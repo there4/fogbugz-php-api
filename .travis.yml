@@ -1,17 +1,60 @@
 language: php
 
-php:
-  - 5.3
-  - 5.4
-  - 5.5
+matrix:
+  fast_finish: true
+  include:
+    - php: 5.5
+    - php: 5.6
 
-before_install:
-  - composer self-update
-  - composer install --dev -n --prefer-source
+    # Only run coverage on 7.1
+    - php: 7.1
+      env:
+        - TASK_TESTS_COVERAGE=1
+        - CC_TEST_REPORTER_ID=73ac12e5967d8ba64ad3ceb67b69f56176f50008820ffaacd14efab909b3f9b6
+
+    - php: 7.2
+
+  allow_failures:
+    - php: 7.2
+
+cache:
+  directories:
+    - vendor
+    - $HOME/.composer/cache
+
+install:
+  # show versions and env information
+  - php --version
+  - composer --version
+  - pg_config --version
+
+  # disable xdebug for performance reasons when code coverage is not needed.
+  - |
+    if [[ $TASK_TESTS_COVERAGE != 1 ]]; then
+      phpenv config-rm xdebug.ini || echo "xdebug is not installed"
+    fi
+
+  # Install dependencies
+  - travis_retry composer self-update
+  - travis_retry composer install --prefer-source --no-interaction --dev
+
+before_script:
+  # Enable code coverage
+  - |
+    if [ $TASK_TESTS_COVERAGE == 1 ]; then
+      PHPUNIT_FLAGS="--coverage-clover=$TRAVIS_BUILD_DIR/build/logs/clover.xml"
+      curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+      chmod +x ./cc-test-reporter
+      ./cc-test-reporter before-build
+    fi
 
 script:
-  - ./vendor/bin/phpunit
+  - composer lint
+  - composer sniff
+  - vendor/bin/phpunit --verbose $PHPUNIT_FLAGS
 
 after_script:
-  - CODECLIMATE_REPO_TOKEN="73ac12e5967d8ba64ad3ceb67b69f56176f50008820ffaacd14efab909b3f9b6" vendor/bin/test-reporter --stdout > codeclimate.json
-  - "curl -X POST -d @codeclimate.json -H 'Content-Type: application/json' -H 'User-Agent: Code Climate (PHP Test Reporter v0.1.1)' https://codeclimate.com/test_reports"
+  - |
+    if [ $TASK_TESTS_COVERAGE == 1 ]; then
+      /cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
+    fi

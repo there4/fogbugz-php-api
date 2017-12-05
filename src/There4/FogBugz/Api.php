@@ -231,35 +231,39 @@ class Api
      * Getter for token.
      * @return str $token
      */
-	public function getToken() {
-		return $this->token;
-	}
+    public function getToken()
+    {
+        return $this->token;
+    }
 
     /**
      * Setter for token
      * @param str $token
      * @return str $token
      */
-	public function setToken($token = '') {
-		$this->token = (string) $token;
+    public function setToken($token = '')
+    {
+        $this->token = (string) $token;
         return $this->getToken();
-	}
+    }
 
     /**
      * Getter for last result (string xml buffer).
      * @return str $token
      */
-	public function getLastBuff() {
-		return $this->last_result;
-	}
+    public function getLastBuff()
+    {
+        return $this->last_result;
+    }
 
     /**
      * Setter for last result
      * @param str $buf
      */
-	public function setLastBuff($buf) {
-		$this->last_result = (string) $buf;
-	}
+    public function setLastBuff($buf)
+    {
+        $this->last_result = (string) $buf;
+    }
 }
 
 /* End of Api.php */
