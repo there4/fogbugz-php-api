@@ -18,21 +18,20 @@ class FogBugzAPITest extends TestCase
     protected function getMockWithData($filename)
     {
         $fullpath = realpath(__DIR__ . '/data/' . $filename);
-
         if (!is_readable($fullpath)) {
             throw new Exception("Invalid filename in mock data: $filename");
         }
 
         $xml  = file_get_contents($fullpath);
         $curl = $this->getMockBuilder(Curl::class)
-            ->setMethods(['fetch'])
-            ->getMock();
+        ->setMethods(['fetch'])
+        ->getMock();
 
       // Set the xml we would expect to see on a login
         $curl
-            ->expects($this->any())
-            ->method('fetch')
-            ->will($this->returnValue($xml));
+        ->expects($this->any())
+        ->method('fetch')
+        ->will($this->returnValue($xml));
 
         return $curl;
     }
@@ -105,9 +104,9 @@ class FogBugzAPITest extends TestCase
 
         $fogbugz->curl = $this->getMockWithData('error.xml');
 
-        // This will fetch the data above and parse the token
+      // This will fetch the data above and parse the token
         $fogbugz->startWork(array(
-            'ixBug' => 23442
+        'ixBug' => 23442
         ));
     }
 
@@ -119,18 +118,18 @@ class FogBugzAPITest extends TestCase
         $fogbugz = new FogBugz\Api($this->user, $this->pass, $this->url);
 
         $fogbugz->curl = $this->getMockBuilder(Curl::class)
-            ->setMethods(['fetch'])
-            ->getMock();
+        ->setMethods(['fetch'])
+        ->getMock();
 
-        // set the xml we would expect to see on a login
+      // set the xml we would expect to see on a login
         $fogbugz->curl
-            ->expects($this->any())
-            ->method('fetch')
-            ->will($this->throwException(new FogBugz\CurlError('Unit testing mock', 42)));
+        ->expects($this->any())
+        ->method('fetch')
+        ->will($this->throwException(new FogBugz\CurlError('Unit testing mock', 42)));
 
-        // This will fetch the data above and parse the token
+      // This will fetch the data above and parse the token
         $fogbugz->startWork(array(
-            'ixBug' => 23442
+        'ixBug' => 23442
         ));
     }
 }
