@@ -3,16 +3,14 @@ language: php
 matrix:
   fast_finish: true
   include:
-    # Only run coverage on 7.1
-    - php: 7.1
+    - php: "7.4snapshot"
+    # Only run coverage on 7.2
+    - php: 7.2
       env:
         - TASK_TESTS_COVERAGE=1
         - CC_TEST_REPORTER_ID=73ac12e5967d8ba64ad3ceb67b69f56176f50008820ffaacd14efab909b3f9b6
 
-    - php: 7.2
-
-  allow_failures:
-    - php: 7.2
+    - php: 7.1
 
 cache:
   directories:
