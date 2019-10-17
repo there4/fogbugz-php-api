@@ -25,9 +25,9 @@ class FogBugzCurlTest extends TestCase
 
     public function testCurlCanFetchExample()
     {
-        $this->assertInternalType(
+        $this->assertEquals(
             'string',
-            $this->curl->fetch('http://www.example.com')
+            gettype($this->curl->fetch('http://www.example.com'))
         );
     }
 
