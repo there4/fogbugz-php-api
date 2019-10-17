@@ -6,7 +6,7 @@
          convertWarningsToExceptions="true"
          processIsolation="false"
          stopOnFailure="false"
-         syntaxCheck="false">
+         bootstrap="test/bootstrap.php">
     <testsuites>
         <testsuite name="FogBugz PHP API Unit testing">
             <directory>test</directory>
