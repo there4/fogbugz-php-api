@@ -1,7 +1,7 @@
 # FogBugz PHP API [![Maintainability](https://api.codeclimate.com/v1/badges/e1cce9ae79596b454642/maintainability?nc=2)](https://codeclimate.com/github/there4/fogbugz-php-api/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/e1cce9ae79596b454642/test_coverage?nc=2)](https://codeclimate.com/github/there4/fogbugz-php-api/test_coverage) [![Build Status](https://travis-ci.org/there4/fogbugz-php-api.svg?branch=master)](https://travis-ci.org/there4/fogbugz-php-api)
 > PHP Wrapper for FogBugz 8 XML API
 
-See the api documentation at [XML API Documentation](http://fogbugz.stackexchange.com/fogbugz-xml-api)
+See the api documentation at [XML API Documentation][api-docs]
 
 This is a small API used to wrap up the FogBugz API into an easy to call
 object. It allows access to all of the API commands exposed by FogBugz,
@@ -66,3 +66,4 @@ file for an example of this.
 * __1.0.5__: Add `setToken()` method to the Api class
 * __2.0.0__: Upgrade to PHP7 only in testing and update tooling
 
+[api-docs]: https://support.fogbugz.com/hc/en-us/sections/360002378313
